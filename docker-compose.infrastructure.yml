@@ -1,0 +1,31 @@
+version: "3"
+
+networks:
+  private:
+    driver: bridge
+
+volumes:
+  volume_message_broker:
+
+services:
+  internal_broker:
+    image: rabbitmq:3-management
+    volumes:
+      - ./rabbitmq_config:/etc/rabbitmq/:ro
+      - volume_message_broker:/var/lib/rabbitmq
+    restart: on-failure
+    expose:
+      - "1883"
+      - "8883"
+      - "5672"
+      - "15672"
+    ports:
+      - "1885:1883"
+      - "8885:8883"
+      - "5675:5672"
+      - "15675:15672"
+    networks:
+      - private
+
+
+
